@@ -17,7 +17,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    posts = group.related_name.posts.all()[:10]
+    posts = Post.objects.select_related()[:10]
     title = 'Страница Групп'
     context = {
         'group': group,
