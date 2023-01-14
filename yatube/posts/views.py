@@ -6,19 +6,22 @@ DEF_POST = 10
 
 
 def index(request):
-    posts = Post.objects.select_related()[:DEF_POST]
+    posts = Post.objects.all()[:DEF_POST]
+    title = 'Главная страница'
     context = {
         'posts': posts,
-        'groups': Group.objects.all()
+        'title': title
     }
     return render(request, 'posts/index.html', context)
 
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    posts = Post.objects.select_related()[:DEF_POST]
+    posts = group.related_name.posts.all()[:10]
+    title = 'Страница Групп'
     context = {
         'group': group,
         'posts': posts,
+        'title': title
     }
     return render(request, 'posts/group_list.html', context)
